@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">wifiChat</string>
+    <string name="action_settings">Settings</string>
+    <string name="scanResTitle">wifi扫描结果：</string>
+    <string name="currentWifiState">当前wifi状态：</string>
+    <string name="scanWifiCount">扫描到wifi个数：</string>
+    <string name="wifiConnected">wifi已连接</string>
+    <string name="systemInfo">系统提示信息</string>
+    <string name="noWifiConnect">wifi未连接</string>
+    <string name="goConnWifi">去连接</string>
+    <string name="notConnWifi">不连接</string>
+    <string name="wifiName">名称：</string>
+    <string name="wifiStrength">强度：</string>
+</resources>
