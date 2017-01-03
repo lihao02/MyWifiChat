@@ -7,6 +7,8 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+import com.lh.sky.activity.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class WifiAdmin {
     private List<String> wifiListData;
     private ScanResult scanResult;
     private Context context;
+    private boolean isWifiConnected;      //wifi连接标志  true已连接  false未连接
 
     private static final String TAG = "WifiAdmin";
 
@@ -50,11 +53,11 @@ public class WifiAdmin {
     public String checkWifiStatus() {
         if(wifiInfo == null)
         {
+
             return context.getResources().getString(com.lh.sky.activity.R.string.noWifiConnect);
         }
         else {
-            return context.getResources().getString(com.lh.sky.activity.R.string.wifiConnected) + " " +
-                    context.getResources().getString(com.lh.sky.activity.R.string.wifiName) + wifiInfo.getSSID();
+            return context.getResources().getString(R.string.connectedWifi) + " " + wifiInfo.getSSID();
         }
     }
 
@@ -74,8 +77,38 @@ public class WifiAdmin {
         wifiLock = wifiManager.createWifiLock("test");
     }
 
+
+    /**
+     * @param SSID
+     * @return 成功返回index 失败返回-1
+     */
+    public int isWifiConfiged(String SSID)
+    {
+        if(wifiConfigurations != null)
+        {
+            for(int i = 0; i < wifiConfigurations.size(); i++)
+            {
+                if(wifiConfigurations.get(i).SSID.equals(SSID))
+                {
+                   return i;
+                }
+            }
+
+            return -1;
+        }
+
+        return -1;
+    }
+
     //获取已经配置好的网络连接
     public List<WifiConfiguration> getWifiConfigurations() {
+        wifiConfigurations = wifiManager.getConfiguredNetworks();
+
+        for(int i = 0; i < wifiConfigurations.size(); i++)
+        {
+            Log.d(TAG, "--->wifiConfigurations: SSID=" + wifiConfigurations.get(i).SSID + " BDDIS=" + wifiConfigurations.get(i).BSSID);
+        }
+
         return wifiConfigurations;
     }
 
@@ -85,10 +118,10 @@ public class WifiAdmin {
     }
 
     //指定配置好的网络进行连接
-    public void connectConfNet(int index) {
-        if (index > wifiConfigurations.size())
-            return;
-        wifiManager.enableNetwork(wifiConfigurations.get(index).networkId, true);
+    public boolean connectConfNet(int index) {
+        if (index > wifiConfigurations.size() || index < 0)
+            return false;
+        return wifiManager.enableNetwork(wifiConfigurations.get(index).networkId, true);
     }
 
     //开始扫描
