@@ -1,8 +1,8 @@
 package com.lh.sky.wifi;
 
-import android.net.wifi.WifiConfiguration;
 import android.content.Context;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
@@ -33,6 +33,7 @@ public class WifiAdmin {
         this.context = context;
         wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         wifiInfo = wifiManager.getConnectionInfo();
+        wifiListData = new ArrayList<String>();
     }
 
     //打开wifi
@@ -84,20 +85,25 @@ public class WifiAdmin {
      */
     public int isWifiConfiged(String SSID)
     {
+        int res = -1;
+
         if(wifiConfigurations != null)
         {
-            for(int i = 0; i < wifiConfigurations.size(); i++)
+            int i;
+            for(i = 0; i < wifiConfigurations.size(); i++)
             {
+                Log.d(TAG, "---SSID=" + SSID + " curr=" + wifiConfigurations.get(i).SSID);
                 if(wifiConfigurations.get(i).SSID.equals(SSID))
                 {
-                   return i;
+                    Log.d(TAG, "------------");
+                    res = i;
+                    break;
                 }
             }
-
-            return -1;
         }
 
-        return -1;
+
+        return res;
     }
 
     //获取已经配置好的网络连接
@@ -127,6 +133,9 @@ public class WifiAdmin {
     //开始扫描
     public void startScan() {
         wifiManager.startScan();
+        if(scanResList != null) {
+            scanResList.clear();
+        }
         scanResList = wifiManager.getScanResults();         //得到扫描结果
         wifiConfigurations = wifiManager.getConfiguredNetworks();       //得到已经配置网络列表
     }
@@ -153,10 +162,10 @@ public class WifiAdmin {
     }
 
     //添加一个网络并连接
-    public void addNetConn(WifiConfiguration wifiConfiguration)
+    public boolean addNetConn(WifiConfiguration wifiConfiguration)
     {
         int id = wifiManager.addNetwork(wifiConfiguration);
-        wifiManager.enableNetwork(id, true);
+        return wifiManager.enableNetwork(id, true);
     }
 
     //断开指定id网络
@@ -168,7 +177,7 @@ public class WifiAdmin {
 
     public List<String> getAllWifiList()
     {
-        wifiListData = new ArrayList<String>();
+        wifiListData.clear();
         //扫描网络
         startScan();
         scanResList = getScanResList();

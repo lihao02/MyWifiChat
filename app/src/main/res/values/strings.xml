@@ -14,5 +14,10 @@
     <string name="connectedWifi">已连接wifi：</string>
     <string name="wifiConnectActivityTitle">wifi网络连接</string>
     <string name="scanWifiList">刷新</string>
-    <string name="wificonnecting">正在连接...</string>
+    <string name="wificonnecting">正在连接wifi：</string>
+    <string name="startConnect">开始连接</string>
+    <string name="inputPassTitle">请输入wifi密码</string>
+    <string name="connError">连接失败，密码错误！请重新输入！</string>
+    <string name="wifiScaning">正在刷新wifi列表...</string>
+    <string name="wifiScanComplete">wifi列表刷新完成！</string>
 </resources>

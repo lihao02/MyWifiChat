@@ -1,8 +1,6 @@
 package com.lh.sky.views;
 
 import android.content.Context;
-import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -39,16 +37,14 @@ public class WifiScanTitleView extends LinearLayout {
         scanWifiList_button = new Button(context);
         scanWifiList_button.setTextSize(16);
         scanWifiList_button.setText(getResources().getString(R.string.scanWifiList));
-        scanWifiList_button.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //刷新wifi列表
-                Log.d(TAG, "scanWifiList_button onClick");
-            }
-        });
+
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.leftMargin = 30;
         addView(scanWifiList_button, layoutParams);
+    }
 
+    public Button getScanWifiListButton()
+    {
+        return scanWifiList_button;
     }
 }
